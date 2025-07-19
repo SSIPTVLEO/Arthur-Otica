@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Arthurótica - Completo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            flex-wrap: wrap;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            background: #f8f9fa;
+            color: #495057;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-right: 1px solid #dee2e6;
+        }
+        
+        .tab-button:last-child {
+            border-right: none;
+        }
+        
+        .tab-button:hover {
+            background: #e9ecef;
+            color: #007bff;
+        }
+        
+        .tab-button.active {
+            background: #007bff;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .section-title {
+            color: #007bff;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+        }
+        
+        th {
+            background-color: #667eea;
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .edit-section {
+            display: none;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .result {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .result.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .result.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .relatorio-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .relatorio-section h4 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        .dados-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .dado-item {
+            background: white;
+            padding: 10px;
+            border-radius: 3px;
+            border-left: 3px solid #007bff;
+        }
+
+        .dado-label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .dado-valor {
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .ordem-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .ordem-header {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            margin: -15px -15px 15px -15px;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+        }
+
+        .ordem-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .detail-section {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 3px;
+        }
+
+        .detail-title {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 3px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            th, td {
+                padding: 6px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sistema Arthurótica</h1>
+            <p>Gerenciamento Completo de Vendas e Ordens de Serviço</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('clientes')">Clientes</button>
+            <button class="tab-button" onclick="showTab('pesquisar-cliente')">Pesquisar Cliente</button>
+            <button class="tab-button" onclick="showTab('relatorio-cliente')">Relatório Cliente</button>
+            <button class="tab-button" onclick="showTab('ordens')">Ordens de Serviço</button>
+            <button class="tab-button" onclick="showTab('receitas')">Receitas</button>
+            <button class="tab-button" onclick="showTab('armacoes')">Armação e Lente</button>
+            <button class="tab-button" onclick="showTab('pagamentos')">Pagamentos</button>
+        </div>
+
+        <!-- ABA CLIENTES -->
+        <div id="clientes" class="tab-content active">
+            <h2 class="section-title">Gerenciamento de Clientes</h2>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="cliente_nome">Nome *:</label>
+                    <input type="text" id="cliente_nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="cliente_cpf">CPF *:</label>
+                    <input type="text" id="cliente_cpf" required>
+                </div>
+                <div class="form-group">
+                    <label for="cliente_data_nascimento">Data de Nascimento:</label>
+                    <input type="date" id="cliente_data_nascimento">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_endereco">Endereço:</label>
+                    <input type="text" id="cliente_endereco">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_bairro">Bairro:</label>
+                    <input type="text" id="cliente_bairro">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_cidade">Cidade:</label>
+                    <input type="text" id="cliente_cidade">
+                </div>
+                <div class="form-group">
+                    <label for="cliente_telefone">Telefone:</label>
+                    <input type="text" id="cliente_telefone">
+                </div>
+            </div>
+            
+            <button class="btn" onclick="criarCliente()">Criar Cliente</button>
+            <button class="btn btn-secondary" onclick="limparFormularioCliente()">Limpar</button>
+            <button class="btn" onclick="carregarClientes()">Atualizar Lista</button>
+            <button class="btn" onclick="exportarClientesExcel()">Exportar Excel</button>
+            
+            <div id="clientes-result" class="result"></div>
+            
+            <div class="table-container">
+                <table id="clientes-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Data Nascimento</th>
+                            <th>Endereço</th>
+                            <th>Bairro</th>
+                            <th>Cidade</th>
+                            <th>Telefone</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientes-tbody"></tbody>
+                </table>
+            </div>
+            
+            <div id="edit-cliente" class="edit-section">
+                <h3>Editar Cliente</h3>
+                <input type="hidden" id="edit_cliente_id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="edit_cliente_nome">Nome:</label>
+                        <input type="text" id="edit_cliente_nome">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_cliente_cpf">CPF:</label>
+                        <input type="text" id="edit_cliente_cpf">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_cliente_data_nascimento">Data de Nascimento:</label>
+                        <input type="date" id="edit_cliente_data_nascimento">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_cliente_endereco">Endereço:</label>
+                        <input type="text" id="edit_cliente_endereco">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_cliente_bairro">Bairro:</label>
+                        <input type="text" id="edit_cliente_bairro">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_cliente_cidade">Cidade:</label>
+                        <input type="text" id="edit_cliente_cidade">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_cliente_telefone">Telefone:</label>
+                        <input type="text" id="edit_cliente_telefone">
+                    </div>
+                </div>
+                <button class="btn" onclick="atualizarCliente()">Atualizar</button>
+                <button class="btn btn-secondary" onclick="cancelarEdicaoCliente()">Cancelar</button>
+            </div>
+        </div>
+
+        <!-- ABA PESQUISAR CLIENTE -->
+        <div id="pesquisar-cliente" class="tab-content">
+            <h2 class="section-title">Pesquisar Cliente</h2>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="pesquisa_termo">CPF ou Nome do Cliente *:</label>
+                    <input type="text" id="pesquisa_termo" placeholder="Digite o CPF ou nome do cliente">
+                </div>
+            </div>
+            
+            <button class="btn" onclick="pesquisarCliente()">Pesquisar</button>
+            <button class="btn btn-secondary" onclick="limparPesquisa()">Limpar</button>
+            
+            <div id="pesquisa-result" class="result"></div>
+            
+            <div class="table-container">
+                <table id="pesquisa-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>Cidade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pesquisa-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA RELATÓRIO CLIENTE -->
+        <div id="relatorio-cliente" class="tab-content">
+            <h2 class="section-title">Relatório Completo do Cliente</h2>
+            
+            <!-- Pesquisa de Cliente -->
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="relatorio_cliente_busca">Buscar Cliente (Nome ou CPF) *:</label>
+                    <input type="text" id="relatorio_cliente_busca" placeholder="Digite o nome ou CPF do cliente">
+                </div>
+            </div>
+            
+            <button class="btn" onclick="buscarClienteRelatorio()">Buscar Cliente</button>
+            <button class="btn btn-secondary" onclick="limparRelatorio()">Limpar</button>
+            
+            <div id="relatorio-result" class="result" style="display: none;"></div>
+            
+            <!-- Lista de Clientes para Seleção -->
+            <div id="clientes-selecao" style="display: none;">
+                <h3>Selecione o Cliente:</h3>
+                <div class="table-container">
+                    <table id="clientes-selecao-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientes-selecao-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Relatório Detalhado -->
+            <div id="relatorio-detalhado" style="display: none;">
+                <h3>Relatório Detalhado do Cliente</h3>
+                
+                <!-- Informações do Cliente -->
+                <div id="info-cliente" class="relatorio-section">
+                    <h4>Informações Pessoais</h4>
+                    <div id="dados-cliente"></div>
+                </div>
+                
+                <!-- Resumo Financeiro -->
+                <div id="resumo-financeiro" class="relatorio-section">
+                    <h4>Resumo Financeiro</h4>
+                    <div id="dados-financeiros"></div>
+                </div>
+                
+                <!-- Ordens de Serviço -->
+                <div id="ordens-cliente" class="relatorio-section">
+                    <h4>Histórico de Ordens de Serviço</h4>
+                    <div id="lista-ordens"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA ORDENS DE SERVIÇO -->
+        <div id="ordens" class="tab-content">
+            <h2 class="section-title">Gerenciamento de Ordens de Serviço</h2>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="os_numero">Número da OS *:</label>
+                    <input type="text" id="os_numero" required>
+                </div>
+                <div class="form-group">
+                    <label for="os_data_pedido">Data do Pedido *:</label>
+                    <input type="date" id="os_data_pedido" required>
+                </div>
+                <div class="form-group">
+                    <label for="os_id_cliente">ID do Cliente *:</label>
+                    <input type="number" id="os_id_cliente" required>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="criarOrdemServico()">Criar OS</button>
+            <button class="btn btn-secondary" onclick="limparFormularioOS()">Limpar</button>
+            <button class="btn" onclick="carregarOrdensServico()">Atualizar Lista</button>
+            
+            <div id="ordens-result" class="result"></div>
+            
+            <div class="table-container">
+                <table id="ordens-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Número OS</th>
+                            <th>Data Pedido</th>
+                            <th>ID Cliente</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordens-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA RECEITAS -->
+        <div id="receitas" class="tab-content">
+            <h2 class="section-title">Gerenciamento de Receitas</h2>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="receita_id_os">ID da OS *:</label>
+                    <input type="number" id="receita_id_os" required>
+                </div>
+            </div>
+            
+            <h3>Olho Direito - Longe</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="receita_esferico_longe_od">Esférico:</label>
+                    <input type="text" id="receita_esferico_longe_od" onchange="calcularPerto('od')">
+                </div>
+                <div class="form-group">
+                    <label for="receita_cilindrico_longe_od">Cilíndrico:</label>
+                    <input type="text" id="receita_cilindrico_longe_od" onchange="calcularPerto('od')">
+                </div>
+                <div class="form-group">
+                    <label for="receita_eixo_od">Eixo:</label>
+                    <input type="text" id="receita_eixo_od">
+                </div>
+                <div class="form-group">
+                    <label for="receita_dnp_od">DNP:</label>
+                    <input type="text" id="receita_dnp_od">
+                </div>
+                <div class="form-group">
+                    <label for="receita_altura_od">Altura:</label>
+                    <input type="text" id="receita_altura_od">
+                </div>
+                <div class="form-group">
+                    <label for="receita_adicao_od">Adição:</label>
+                    <input type="text" id="receita_adicao_od" onchange="calcularPerto('od')">
+                </div>
+            </div>
+            
+            <h3>Olho Esquerdo - Longe</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="receita_esferico_longe_oe">Esférico:</label>
+                    <input type="text" id="receita_esferico_longe_oe" onchange="calcularPerto('oe')">
+                </div>
+                <div class="form-group">
+                    <label for="receita_cilindrico_longe_oe">Cilíndrico:</label>
+                    <input type="text" id="receita_cilindrico_longe_oe" onchange="calcularPerto('oe')">
+                </div>
+                <div class="form-group">
+                    <label for="receita_eixo_oe">Eixo:</label>
+                    <input type="text" id="receita_eixo_oe">
+                </div>
+                <div class="form-group">
+                    <label for="receita_dnp_oe">DNP:</label>
+                    <input type="text" id="receita_dnp_oe">
+                </div>
+                <div class="form-group">
+                    <label for="receita_altura_oe">Altura:</label>
+                    <input type="text" id="receita_altura_oe">
+                </div>
+                <div class="form-group">
+                    <label for="receita_adicao_oe">Adição:</label>
+                    <input type="text" id="receita_adicao_oe" onchange="calcularPerto('oe')">
+                </div>
+            </div>
+            
+            <h3>Perto</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="receita_esferico_perto_od">Esférico O.D:</label>
+                    <input type="text" id="receita_esferico_perto_od" readonly style="background-color: #f8f9fa;">
+                </div>
+                <div class="form-group">
+                    <label for="receita_cilindrico_perto_od">Cilíndrico O.D:</label>
+                    <input type="text" id="receita_cilindrico_perto_od" readonly style="background-color: #f8f9fa;">
+                </div>
+                <div class="form-group">
+                    <label for="receita_eixo_perto_od">Eixo O.D:</label>
+                    <input type="text" id="receita_eixo_perto_od">
+                </div>
+                <div class="form-group">
+                    <label for="receita_esferico_perto_oe">Esférico O.E:</label>
+                    <input type="text" id="receita_esferico_perto_oe" readonly style="background-color: #f8f9fa;">
+                </div>
+                <div class="form-group">
+                    <label for="receita_cilindrico_perto_oe">Cilíndrico O.E:</label>
+                    <input type="text" id="receita_cilindrico_perto_oe" readonly style="background-color: #f8f9fa;">
+                </div>
+                <div class="form-group">
+                    <label for="receita_eixo_perto_oe">Eixo O.E:</label>
+                    <input type="text" id="receita_eixo_perto_oe">
+                </div>
+            </div>
+            
+            <button class="btn" onclick="criarReceita()">Criar Receita</button>
+            <button class="btn btn-secondary" onclick="limparFormularioReceita()">Limpar</button>
+            <button class="btn" onclick="carregarReceitas()">Atualizar Lista</button>
+            
+            <div id="receitas-result" class="result"></div>
+            
+            <div class="table-container">
+                <table id="receitas-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ID OS</th>
+                            <th>Esf. Longe OD</th>
+                            <th>Cil. Longe OD</th>
+                            <th>Adição OD</th>
+                            <th>Esf. Longe OE</th>
+                            <th>Cil. Longe OE</th>
+                            <th>Adição OE</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="receitas-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA ARMAÇÃO E LENTE -->
+        <div id="armacoes" class="tab-content">
+            <h2 class="section-title">Gerenciamento de Armação e Lente</h2>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="armacao_id_os">ID da OS *:</label>
+                    <input type="number" id="armacao_id_os" required>
+                </div>
+                <div class="form-group">
+                    <label for="armacao_ponte">Ponte:</label>
+                    <input type="text" id="armacao_ponte">
+                </div>
+                <div class="form-group">
+                    <label for="armacao_horizontal">Horizontal:</label>
+                    <input type="text" id="armacao_horizontal">
+                </div>
+                <div class="form-group">
+                    <label for="armacao_vertical">Vertical:</label>
+                    <input type="text" id="armacao_vertical">
+                </div>
+                <div class="form-group">
+                    <label for="armacao_diagonal_maior">Diagonal Maior:</label>
+                    <input type="text" id="armacao_diagonal_maior">
+                </div>
+                <div class="form-group">
+                    <label for="armacao_marca_armacao">Marca da Armação:</label>
+                    <input type="text" id="armacao_marca_armacao">
+                </div>
+                <div class="form-group">
+                    <label for="armacao_referencia_armacao">Referência da Armação:</label>
+                    <input type="text" id="armacao_referencia_armacao">
+                </div>
+                <div class="form-group">
+                    <label for="armacao_material_armacao">Material da Armação:</label>
+                    <input type="text" id="armacao_material_armacao">
+                </div>
+                <div class="form-group">
+                    <label for="armacao_lente_comprada">Lente Comprada:</label>
+                    <input type="text" id="armacao_lente_comprada">
+                </div>
+                <div class="form-group">
+                    <label for="armacao_tratamento">Tratamento:</label>
+                    <input type="text" id="armacao_tratamento">
+                </div>
+                <div class="form-group">
+                    <label for="armacao_coloracao">Coloração:</label>
+                    <input type="text" id="armacao_coloracao">
+                </div>
+            </div>
+            
+            <button class="btn" onclick="criarArmacao()">Criar Armação</button>
+            <button class="btn btn-secondary" onclick="limparFormularioArmacao()">Limpar</button>
+            <button class="btn" onclick="carregarArmacoes()">Atualizar Lista</button>
+            
+            <div id="armacoes-result" class="result"></div>
+            
+            <div class="table-container">
+                <table id="armacoes-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ID OS</th>
+                            <th>Marca</th>
+                            <th>Material</th>
+                            <th>Lente</th>
+                            <th>Tratamento</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="armacoes-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA PAGAMENTOS -->
+        <div id="pagamentos" class="tab-content">
+            <h2 class="section-title">Gerenciamento de Pagamentos</h2>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="pagamento_id_os">ID da OS *:</label>
+                    <input type="number" id="pagamento_id_os" required>
+                </div>
+                <div class="form-group">
+                    <label for="pagamento_valor_lente">Valor da Lente (R$) *:</label>
+                    <input type="number" id="pagamento_valor_lente" step="0.01" required onchange="calcularTotal()">
+                </div>
+                <div class="form-group">
+                    <label for="pagamento_valor_armacao">Valor da Armação (R$) *:</label>
+                    <input type="number" id="pagamento_valor_armacao" step="0.01" required onchange="calcularTotal()">
+                </div>
+                <div class="form-group">
+                    <label for="pagamento_forma_pagamento">Forma de Pagamento *:</label>
+                    <select id="pagamento_forma_pagamento" required onchange="toggleParcelas()">
+                        <option value="">Selecione...</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="Cartão de Débito">Cartão de Débito</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                        <option value="PIX">PIX</option>
+                        <option value="Transferência">Transferência</option>
+                        <option value="Cheque">Cheque</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pagamento_entrada">Entrada (R$):</label>
+                    <input type="number" id="pagamento_entrada" step="0.01" onchange="calcularParcelas()">
+                </div>
+                <div class="form-group">
+                    <label for="pagamento_parcelas">Número de Parcelas:</label>
+                    <input type="number" id="pagamento_parcelas" min="1" onchange="calcularParcelas()">
+                </div>
+                <div class="form-group">
+                    <label for="pagamento_valor_parcelas">Valor das Parcelas (R$):</label>
+                    <input type="number" id="pagamento_valor_parcelas" step="0.01" readonly style="background-color: #f8f9fa;">
+                </div>
+                <div class="form-group">
+                    <label for="pagamento_status">Status *:</label>
+                    <select id="pagamento_status" required>
+                        <option value="">Selecione...</option>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Pago">Pago</option>
+                        <option value="Parcialmente Pago">Parcialmente Pago</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="criarPagamento()">Criar Pagamento</button>
+            <button class="btn btn-secondary" onclick="limparFormularioPagamento()">Limpar</button>
+            <button class="btn" onclick="carregarPagamentos()">Atualizar Lista</button>
+            
+            <div id="pagamentos-result" class="result"></div>
+            
+            <div class="table-container">
+                <table id="pagamentos-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>ID OS</th>
+                            <th>Valor Total</th>
+                            <th>Forma Pagamento</th>
+                            <th>Entrada</th>
+                            <th>Parcelas</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pagamentos-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para mostrar/esconder abas
+        function showTab(tabName) {
+            // Esconder todas as abas
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remover classe active de todos os botões
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Mostrar a aba selecionada
+            document.getElementById(tabName).classList.add('active');
+            
+            // Adicionar classe active ao botão correspondente
+            event.target.classList.add('active');
+            
+            // Carregar dados da aba se necessário
+            if (tabName === 'clientes') {
+                carregarClientes();
+            } else if (tabName === 'ordens') {
+                carregarOrdensServico();
+            } else if (tabName === 'receitas') {
+                carregarReceitas();
+            } else if (tabName === 'armacoes') {
+                carregarArmacoes();
+            } else if (tabName === 'pagamentos') {
+                carregarPagamentos();
+            }
+        }
+
+        // Função para exibir mensagens de erro
+        function exibirErro(elementId, mensagem) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = mensagem;
+            element.className = 'result error';
+            element.style.display = 'block';
+        }
+
+        // Função para exibir mensagens de sucesso
+        function exibirSucesso(elementId, mensagem) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = mensagem;
+            element.className = 'result success';
+            element.style.display = 'block';
+        }
+
+        // FUNÇÕES PARA CLIENTES
+        async function criarCliente() {
+            const nome = document.getElementById('cliente_nome').value;
+            const cpf = document.getElementById('cliente_cpf').value;
+            const data_nascimento = document.getElementById('cliente_data_nascimento').value;
+            const endereco = document.getElementById('cliente_endereco').value;
+            const bairro = document.getElementById('cliente_bairro').value;
+            const cidade = document.getElementById('cliente_cidade').value;
+            const telefone = document.getElementById('cliente_telefone').value;
+
+            if (!nome || !cpf) {
+                exibirErro('clientes-result', 'Nome e CPF são obrigatórios.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/clientes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nome,
+                        cpf,
+                        data_nascimento: data_nascimento || null,
+                        endereco,
+                        bairro,
+                        cidade,
+                        telefone
+                    }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    exibirSucesso('clientes-result', 'Cliente criado com sucesso!');
+                    limparFormularioCliente();
+                    carregarClientes();
+                } else {
+                    exibirErro('clientes-result', result.error || 'Erro ao criar cliente');
+                }
+            } catch (error) {
+                exibirErro('clientes-result', 'Erro ao conectar com o servidor: ' + error.message);
+            }
+        }
+
+        async function carregarClientes() {
+            try {
+                const response = await fetch('/api/clientes');
+                const clientes = await response.json();
+
+                const tbody = document.getElementById('clientes-tbody');
+                tbody.innerHTML = '';
+
+                clientes.forEach(cliente => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${cliente.ID}</td>
+                        <td>${cliente.NOME}</td>
+                        <td>${cliente.CPF}</td>
+                        <td>${cliente['DATA NASCIMENTO'] || '-'}</td>
+                        <td>${cliente.ENDEREÇO || '-'}</td>
+                        <td>${cliente.BAIRRO || '-'}</td>
+                        <td>${cliente.CIDADE || '-'}</td>
+                        <td>${cliente.TELEFONE || '-'}</td>
+                        <td class="actions">
+                            <button class="btn btn-small" onclick="editarCliente(${cliente.ID})">Editar</button>
+                            <button class="btn btn-small btn-danger" onclick="excluirCliente(${cliente.ID})">Excluir</button>
+                        </td>
+                    `;
+                });
+            } catch (error) {
+                exibirErro('clientes-result', 'Erro ao carregar clientes: ' + error.message);
+            }
+        }
+
+        function limparFormularioCliente() {
+            document.getElementById('cliente_nome').value = '';
+            document.getElementById('cliente_cpf').value = '';
+            document.getElementById('cliente_data_nascimento').value = '';
+            document.getElementById('cliente_endereco').value = '';
+            document.getElementById('cliente_bairro').value = '';
+            document.getElementById('cliente_cidade').value = '';
+            document.getElementById('cliente_telefone').value = '';
+            document.getElementById('clientes-result').style.display = 'none';
+        }
+
+        async function editarCliente(id) {
+            try {
+                const response = await fetch(`/api/clientes/${id}`);
+                const cliente = await response.json();
+
+                document.getElementById('edit_cliente_id').value = cliente.ID;
+                document.getElementById('edit_cliente_nome').value = cliente.NOME;
+                document.getElementById('edit_cliente_cpf').value = cliente.CPF;
+                document.getElementById('edit_cliente_data_nascimento').value = cliente['DATA NASCIMENTO'] || '';
+                document.getElementById('edit_cliente_endereco').value = cliente.ENDEREÇO || '';
+                document.getElementById('edit_cliente_bairro').value = cliente.BAIRRO || '';
+                document.getElementById('edit_cliente_cidade').value = cliente.CIDADE || '';
+                document.getElementById('edit_cliente_telefone').value = cliente.TELEFONE || '';
+
+                document.getElementById('edit-cliente').style.display = 'block';
+            } catch (error) {
+                exibirErro('clientes-result', 'Erro ao carregar dados do cliente: ' + error.message);
+            }
+        }
+
+        async function atualizarCliente() {
+            const id = document.getElementById('edit_cliente_id').value;
+            const nome = document.getElementById('edit_cliente_nome').value;
+            const cpf = document.getElementById('edit_cliente_cpf').value;
+            const data_nascimento = document.getElementById('edit_cliente_data_nascimento').value;
+            const endereco = document.getElementById('edit_cliente_endereco').value;
+            const bairro = document.getElementById('edit_cliente_bairro').value;
+            const cidade = document.getElementById('edit_cliente_cidade').value;
+            const telefone = document.getElementById('edit_cliente_telefone').value;
+
+            try {
+                const response = await fetch(`/api/clientes/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nome,
+                        cpf,
+                        data_nascimento: data_nascimento || null,
+                        endereco,
+                        bairro,
+                        cidade,
+                        telefone
+                    }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    exibirSucesso('clientes-result', 'Cliente atualizado com sucesso!');
+                    cancelarEdicaoCliente();
+                    carregarClientes();
+                } else {
+                    exibirErro('clientes-result', result.error || 'Erro ao atualizar cliente');
+                }
+            } catch (error) {
+                exibirErro('clientes-result', 'Erro ao conectar com o servidor: ' + error.message);
+            }
+        }
+
+        function cancelarEdicaoCliente() {
+            document.getElementById('edit-cliente').style.display = 'none';
+        }
+
+        async function excluirCliente(id) {
+            if (confirm('Tem certeza que deseja excluir este cliente?')) {
+                try {
+                    const response = await fetch(`/api/clientes/${id}`, {
+                        method: 'DELETE',
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        exibirSucesso('clientes-result', 'Cliente excluído com sucesso!');
+                        carregarClientes();
+                    } else {
+                        exibirErro('clientes-result', result.error || 'Erro ao excluir cliente');
+                    }
+                } catch (error) {
+                    exibirErro('clientes-result', 'Erro ao conectar com o servidor: ' + error.message);
+                }
+            }
+        }
+
+        async function exportarClientesExcel() {
+            try {
+                const response = await fetch('/api/clientes/exportar-excel');
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = `clientes_${new Date().toISOString().split('T')[0]}.xlsx`;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    exibirSucesso('clientes-result', 'Planilha Excel baixada com sucesso!');
+                } else {
+                    exibirErro('clientes-result', 'Erro ao gerar planilha Excel');
+                }
+            } catch (error) {
+                exibirErro('clientes-result', 'Erro ao exportar Excel: ' + error.message);
+            }
+        }
+
+        // Função para calcular valores de perto automaticamente
+        function calcularPerto(olho) {
+            const esfericoLonge = parseFloat(document.getElementById(`receita_esferico_longe_${olho}`).value) || 0;
+            const cilindricoLonge = document.getElementById(`receita_cilindrico_longe_${olho}`).value;
+            const adicao = parseFloat(document.getElementById(`receita_adicao_${olho}`).value) || 0;
+            
+            if (adicao !== 0) {
+                // Calcular esférico perto = esférico longe + adição
+                const esfericoPerto = esfericoLonge + adicao;
+                document.getElementById(`receita_esferico_perto_${olho}`).value = esfericoPerto.toFixed(2);
+                
+                // Cilíndrico perto = mesmo valor do cilíndrico longe
+                document.getElementById(`receita_cilindrico_perto_${olho}`).value = cilindricoLonge;
+            } else {
+                // Se não há adição, limpar os campos de perto
+                document.getElementById(`receita_esferico_perto_${olho}`).value = '';
+                document.getElementById(`receita_cilindrico_perto_${olho}`).value = '';
+            }
+        }
+
+        // FUNÇÕES PARA RELATÓRIO DE CLIENTE
+        async function buscarClienteRelatorio() {
+            const termo = document.getElementById('relatorio_cliente_busca').value.trim();
+            
+            if (!termo) {
+                exibirErro('relatorio-result', 'Por favor, digite um nome ou CPF para buscar.');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/clientes/pesquisar?termo=${encodeURIComponent(termo)}`);
+                const clientes = await response.json();
+                
+                if (clientes.length === 0) {
+                    exibirErro('relatorio-result', 'Nenhum cliente encontrado com esse termo.');
+                    document.getElementById('clientes-selecao').style.display = 'none';
+                    document.getElementById('relatorio-detalhado').style.display = 'none';
+                    return;
+                }
+                
+                if (clientes.length === 1) {
+                    // Se encontrou apenas um cliente, carrega o relatório diretamente
+                    carregarRelatorioCliente(clientes[0].ID);
+                } else {
+                    // Se encontrou múltiplos clientes, mostra lista para seleção
+                    mostrarListaSelecao(clientes);
+                }
+                
+            } catch (error) {
+                exibirErro('relatorio-result', 'Erro ao buscar cliente: ' + error.message);
+            }
+        }
+        
+        function mostrarListaSelecao(clientes) {
+            const tbody = document.getElementById('clientes-selecao-tbody');
+            tbody.innerHTML = '';
+            
+            clientes.forEach(cliente => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${cliente.ID}</td>
+                    <td>${cliente.NOME}</td>
+                    <td>${cliente.CPF}</td>
+                    <td><button class="btn btn-small" onclick="carregarRelatorioCliente(${cliente.ID})">Ver Relatório</button></td>
+                `;
+            });
+            
+            document.getElementById('clientes-selecao').style.display = 'block';
+            document.getElementById('relatorio-detalhado').style.display = 'none';
+            document.getElementById('relatorio-result').style.display = 'none';
+        }
+        
+        async function carregarRelatorioCliente(clienteId) {
+            try {
+                const response = await fetch(`/api/clientes/${clienteId}/relatorio`);
+                const relatorio = await response.json();
+                
+                if (response.ok) {
+                    exibirRelatorioDetalhado(relatorio);
+                    document.getElementById('clientes-selecao').style.display = 'none';
+                    document.getElementById('relatorio-result').style.display = 'none';
+                } else {
+                    exibirErro('relatorio-result', relatorio.error || 'Erro ao carregar relatório');
+                }
+                
+            } catch (error) {
+                exibirErro('relatorio-result', 'Erro ao carregar relatório: ' + error.message);
+            }
+        }
+        
+        function exibirRelatorioDetalhado(relatorio) {
+            // Informações do cliente
+            const dadosCliente = document.getElementById('dados-cliente');
+            dadosCliente.innerHTML = `
+                <div class="dados-grid">
+                    <div class="dado-item">
+                        <div class="dado-label">Nome:</div>
+                        <div class="dado-valor">${relatorio.cliente.NOME}</div>
+                    </div>
+                    <div class="dado-item">
+                        <div class="dado-label">CPF:</div>
+                        <div class="dado-valor">${relatorio.cliente.CPF}</div>
+                    </div>
+                    <div class="dado-item">
+                        <div class="dado-label">Data de Nascimento:</div>
+                        <div class="dado-valor">${relatorio.cliente['DATA NASCIMENTO'] || 'Não informado'}</div>
+                    </div>
+                    <div class="dado-item">
+                        <div class="dado-label">Telefone:</div>
+                        <div class="dado-valor">${relatorio.cliente.TELEFONE || 'Não informado'}</div>
+                    </div>
+                    <div class="dado-item">
+                        <div class="dado-label">Endereço:</div>
+                        <div class="dado-valor">${relatorio.cliente.ENDEREÇO || 'Não informado'}</div>
+                    </div>
+                    <div class="dado-item">
+                        <div class="dado-label">Cidade:</div>
+                        <div class="dado-valor">${relatorio.cliente.CIDADE || 'Não informado'}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Resumo financeiro
+            const dadosFinanceiros = document.getElementById('dados-financeiros');
+            const resumo = relatorio.resumo_pagamentos;
+            dadosFinanceiros.innerHTML = `
+                <div class="dados-grid">
+                    <div class="dado-item">
+                        <div class="dado-label">Total de Compras:</div>
+                        <div class="dado-valor">${relatorio.total_compras}</div>
+                    </div>
+                    <div class="dado-item">
+                        <div class="dado-label">Valor Total Gasto:</div>
+                        <div class="dado-valor">R$ ${resumo.total_gasto.toFixed(2)}</div>
+                    </div>
+                    <div class="dado-item">
+                        <div class="dado-label">Formas de Pagamento:</div>
+                        <div class="dado-valor">${Object.entries(resumo.formas_pagamento).map(([forma, qtd]) => `${forma}: ${qtd}x`).join('<br>')}</div>
+                    </div>
+                    <div class="dado-item">
+                        <div class="dado-label">Status dos Pagamentos:</div>
+                        <div class="dado-valor">${Object.entries(resumo.status_pagamentos).map(([status, qtd]) => `${status}: ${qtd}x`).join('<br>')}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Ordens de serviço
+            const listaOrdens = document.getElementById('lista-ordens');
+            if (relatorio.ordens_servico.length === 0) {
+                listaOrdens.innerHTML = '<p>Nenhuma ordem de serviço encontrada.</p>';
+            } else {
+                listaOrdens.innerHTML = relatorio.ordens_servico.map(ordem => `
+                    <div class="ordem-card">
+                        <div class="ordem-header">
+                            OS #${ordem.numero_OS} - ${ordem.data_pedido}
+                        </div>
+                        <div class="ordem-details">
+                            ${ordem.receita ? `
+                                <div class="detail-section">
+                                    <div class="detail-title">Receita</div>
+                                    <div>OD: Esf ${ordem.receita.esferico_longe_od || 'N/A'} Cil ${ordem.receita.cilindrico_longe_od || 'N/A'}</div>
+                                    <div>OE: Esf ${ordem.receita.esferico_longe_oe || 'N/A'} Cil ${ordem.receita.cilindrico_longe_oe || 'N/A'}</div>
+                                    <div>Adição: OD ${ordem.receita.adicao_od || 'N/A'} OE ${ordem.receita.adicao_oe || 'N/A'}</div>
+                                </div>
+                            ` : '<div class="detail-section"><div class="detail-title">Receita</div><div>Não cadastrada</div></div>'}
+                            
+                            ${ordem.armacao ? `
+                                <div class="detail-section">
+                                    <div class="detail-title">Armação e Lente</div>
+                                    <div>Marca: ${ordem.armacao.marca_armacao || 'N/A'}</div>
+                                    <div>Material: ${ordem.armacao.material_armacao || 'N/A'}</div>
+                                    <div>Lente: ${ordem.armacao.lente_comprada || 'N/A'}</div>
+                                    <div>Tratamento: ${ordem.armacao.tratamento || 'N/A'}</div>
+                                </div>
+                            ` : '<div class="detail-section"><div class="detail-title">Armação e Lente</div><div>Não cadastrada</div></div>'}
+                            
+                            ${ordem.pagamento ? `
+                                <div class="detail-section">
+                                    <div class="detail-title">Pagamento</div>
+                                    <div>Valor Total: R$ ${ordem.pagamento.valor_total.toFixed(2)}</div>
+                                    <div>Forma: ${ordem.pagamento.forma_pagamento}</div>
+                                    <div>Status: ${ordem.pagamento.status}</div>
+                                    ${ordem.pagamento.parcelas ? `<div>Parcelas: ${ordem.pagamento.parcelas}x R$ ${ordem.pagamento.valor_parcelas.toFixed(2)}</div>` : ''}
+                                </div>
+                            ` : '<div class="detail-section"><div class="detail-title">Pagamento</div><div>Não cadastrado</div></div>'}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('relatorio-detalhado').style.display = 'block';
+        }
+        
+        function limparRelatorio() {
+            document.getElementById('relatorio_cliente_busca').value = '';
+            document.getElementById('clientes-selecao').style.display = 'none';
+            document.getElementById('relatorio-detalhado').style.display = 'none';
+            document.getElementById('relatorio-result').style.display = 'none';
+        }
+
+        // FUNÇÕES PARA PESQUISA DE CLIENTES
+        async function pesquisarCliente() {
+            const termo = document.getElementById('pesquisa_termo').value.trim();
+            
+            if (!termo) {
+                exibirErro('pesquisa-result', 'Por favor, digite um termo para pesquisar.');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/clientes/pesquisar?termo=${encodeURIComponent(termo)}`);
+                const clientes = await response.json();
+                
+                const tbody = document.getElementById('pesquisa-tbody');
+                tbody.innerHTML = '';
+                
+                if (clientes.length === 0) {
+                    exibirErro('pesquisa-result', 'Nenhum cliente encontrado com esse termo.');
+                    document.getElementById('pesquisa-table').style.display = 'none';
+                    return;
+                }
+                
+                clientes.forEach(cliente => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${cliente.ID}</td>
+                        <td>${cliente.NOME}</td>
+                        <td>${cliente.CPF}</td>
+                        <td>${cliente.TELEFONE || '-'}</td>
+                        <td>${cliente.CIDADE || '-'}</td>
+                    `;
+                });
+                
+                document.getElementById('pesquisa-table').style.display = 'table';
+                exibirSucesso('pesquisa-result', `${clientes.length} cliente(s) encontrado(s).`);
+                
+            } catch (error) {
+                exibirErro('pesquisa-result', 'Erro ao pesquisar cliente: ' + error.message);
+            }
+        }
+        
+        function limparPesquisa() {
+            document.getElementById('pesquisa_termo').value = '';
+            document.getElementById('pesquisa-table').style.display = 'none';
+            document.getElementById('pesquisa-result').style.display = 'none';
+        }
+
+        // FUNÇÕES PARA ORDENS DE SERVIÇO
+        async function criarOrdemServico() {
+            const numero_os = document.getElementById('os_numero').value;
+            const data_pedido = document.getElementById('os_data_pedido').value;
+            const id_cliente = document.getElementById('os_id_cliente').value;
+
+            if (!numero_os || !data_pedido || !id_cliente) {
+                exibirErro('ordens-result', 'Todos os campos são obrigatórios.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/ordens-servico', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        numero_os,
+                        data_pedido,
+                        id_cliente: parseInt(id_cliente)
+                    }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    exibirSucesso('ordens-result', 'Ordem de serviço criada com sucesso!');
+                    limparFormularioOS();
+                    carregarOrdensServico();
+                } else {
+                    exibirErro('ordens-result', result.error || 'Erro ao criar ordem de serviço');
+                }
+            } catch (error) {
+                exibirErro('ordens-result', 'Erro ao conectar com o servidor: ' + error.message);
+            }
+        }
+
+        async function carregarOrdensServico() {
+            try {
+                const response = await fetch('/api/ordens-servico');
+                const ordens = await response.json();
+
+                const tbody = document.getElementById('ordens-tbody');
+                tbody.innerHTML = '';
+
+                ordens.forEach(ordem => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${ordem.ID}</td>
+                        <td>${ordem.numero_OS}</td>
+                        <td>${ordem.data_pedido}</td>
+                        <td>${ordem.ID_Cliente}</td>
+                        <td class="actions">
+                            <button class="btn btn-small btn-danger" onclick="excluirOrdemServico(${ordem.ID})">Excluir</button>
+                        </td>
+                    `;
+                });
+            } catch (error) {
+                exibirErro('ordens-result', 'Erro ao carregar ordens de serviço: ' + error.message);
+            }
+        }
+
+        function limparFormularioOS() {
+            document.getElementById('os_numero').value = '';
+            document.getElementById('os_data_pedido').value = '';
+            document.getElementById('os_id_cliente').value = '';
+            document.getElementById('ordens-result').style.display = 'none';
+        }
+
+        async function excluirOrdemServico(id) {
+            if (confirm('Tem certeza que deseja excluir esta ordem de serviço?')) {
+                try {
+                    const response = await fetch(`/api/ordens-servico/${id}`, {
+                        method: 'DELETE',
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        exibirSucesso('ordens-result', 'Ordem de serviço excluída com sucesso!');
+                        carregarOrdensServico();
+                    } else {
+                        exibirErro('ordens-result', result.error || 'Erro ao excluir ordem de serviço');
+                    }
+                } catch (error) {
+                    exibirErro('ordens-result', 'Erro ao conectar com o servidor: ' + error.message);
+                }
+            }
+        }
+
+        // FUNÇÕES PARA RECEITAS
+        async function criarReceita() {
+            const dados = {
+                id_os: parseInt(document.getElementById('receita_id_os').value),
+                esferico_longe_od: document.getElementById('receita_esferico_longe_od').value,
+                cilindrico_longe_od: document.getElementById('receita_cilindrico_longe_od').value,
+                eixo_od: document.getElementById('receita_eixo_od').value,
+                dnp_od: document.getElementById('receita_dnp_od').value,
+                altura_od: document.getElementById('receita_altura_od').value,
+                adicao_od: document.getElementById('receita_adicao_od').value,
+                esferico_longe_oe: document.getElementById('receita_esferico_longe_oe').value,
+                cilindrico_longe_oe: document.getElementById('receita_cilindrico_longe_oe').value,
+                eixo_oe: document.getElementById('receita_eixo_oe').value,
+                dnp_oe: document.getElementById('receita_dnp_oe').value,
+                altura_oe: document.getElementById('receita_altura_oe').value,
+                adicao_oe: document.getElementById('receita_adicao_oe').value,
+                esferico_perto_od: document.getElementById('receita_esferico_perto_od').value,
+                cilindrico_perto_od: document.getElementById('receita_cilindrico_perto_od').value,
+                eixo_perto_od: document.getElementById('receita_eixo_perto_od').value,
+                esferico_perto_oe: document.getElementById('receita_esferico_perto_oe').value,
+                cilindrico_perto_oe: document.getElementById('receita_cilindrico_perto_oe').value,
+                eixo_perto_oe: document.getElementById('receita_eixo_perto_oe').value
+            };
+
+            if (!dados.id_os) {
+                exibirErro('receitas-result', 'ID da OS é obrigatório.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/receitas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(dados),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    exibirSucesso('receitas-result', 'Receita criada com sucesso!');
+                    limparFormularioReceita();
+                    carregarReceitas();
+                } else {
+                    exibirErro('receitas-result', result.error || 'Erro ao criar receita');
+                }
+            } catch (error) {
+                exibirErro('receitas-result', 'Erro ao conectar com o servidor: ' + error.message);
+            }
+        }
+
+        async function carregarReceitas() {
+            try {
+                const response = await fetch('/api/receitas');
+                const receitas = await response.json();
+
+                const tbody = document.getElementById('receitas-tbody');
+                tbody.innerHTML = '';
+
+                receitas.forEach(receita => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${receita.ID}</td>
+                        <td>${receita.ID_OS}</td>
+                        <td>${receita.esferico_longe_od || '-'}</td>
+                        <td>${receita.cilindrico_longe_od || '-'}</td>
+                        <td>${receita.adicao_od || '-'}</td>
+                        <td>${receita.esferico_longe_oe || '-'}</td>
+                        <td>${receita.cilindrico_longe_oe || '-'}</td>
+                        <td>${receita.adicao_oe || '-'}</td>
+                        <td class="actions">
+                            <button class="btn btn-small btn-danger" onclick="excluirReceita(${receita.ID})">Excluir</button>
+                        </td>
+                    `;
+                });
+            } catch (error) {
+                exibirErro('receitas-result', 'Erro ao carregar receitas: ' + error.message);
+            }
+        }
+
+        function limparFormularioReceita() {
+            const campos = [
+                'receita_id_os', 'receita_esferico_longe_od', 'receita_cilindrico_longe_od',
+                'receita_eixo_od', 'receita_dnp_od', 'receita_altura_od', 'receita_adicao_od',
+                'receita_esferico_longe_oe', 'receita_cilindrico_longe_oe', 'receita_eixo_oe',
+                'receita_dnp_oe', 'receita_altura_oe', 'receita_adicao_oe', 'receita_esferico_perto_od',
+                'receita_cilindrico_perto_od', 'receita_eixo_perto_od', 'receita_esferico_perto_oe',
+                'receita_cilindrico_perto_oe', 'receita_eixo_perto_oe'
+            ];
+            
+            campos.forEach(campo => {
+                document.getElementById(campo).value = '';
+            });
+            
+            document.getElementById('receitas-result').style.display = 'none';
+        }
+
+        async function excluirReceita(id) {
+            if (confirm('Tem certeza que deseja excluir esta receita?')) {
+                try {
+                    const response = await fetch(`/api/receitas/${id}`, {
+                        method: 'DELETE',
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        exibirSucesso('receitas-result', 'Receita excluída com sucesso!');
+                        carregarReceitas();
+                    } else {
+                        exibirErro('receitas-result', result.error || 'Erro ao excluir receita');
+                    }
+                } catch (error) {
+                    exibirErro('receitas-result', 'Erro ao conectar com o servidor: ' + error.message);
+                }
+            }
+        }
+
+        // FUNÇÕES PARA ARMAÇÕES
+        async function criarArmacao() {
+            const dados = {
+                id_os: parseInt(document.getElementById('armacao_id_os').value),
+                ponte: document.getElementById('armacao_ponte').value,
+                horizontal: document.getElementById('armacao_horizontal').value,
+                vertical: document.getElementById('armacao_vertical').value,
+                diagonal_maior: document.getElementById('armacao_diagonal_maior').value,
+                marca_armacao: document.getElementById('armacao_marca_armacao').value,
+                referencia_armacao: document.getElementById('armacao_referencia_armacao').value,
+                material_armacao: document.getElementById('armacao_material_armacao').value,
+                lente_comprada: document.getElementById('armacao_lente_comprada').value,
+                tratamento: document.getElementById('armacao_tratamento').value,
+                coloracao: document.getElementById('armacao_coloracao').value
+            };
+
+            if (!dados.id_os) {
+                exibirErro('armacoes-result', 'ID da OS é obrigatório.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/armacoes-lentes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(dados),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    exibirSucesso('armacoes-result', 'Armação criada com sucesso!');
+                    limparFormularioArmacao();
+                    carregarArmacoes();
+                } else {
+                    exibirErro('armacoes-result', result.error || 'Erro ao criar armação');
+                }
+            } catch (error) {
+                exibirErro('armacoes-result', 'Erro ao conectar com o servidor: ' + error.message);
+            }
+        }
+
+        async function carregarArmacoes() {
+            try {
+                const response = await fetch('/api/armacoes-lentes');
+                const armacoes = await response.json();
+
+                const tbody = document.getElementById('armacoes-tbody');
+                tbody.innerHTML = '';
+
+                armacoes.forEach(armacao => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${armacao.ID}</td>
+                        <td>${armacao.ID_OS}</td>
+                        <td>${armacao.marca_armacao || '-'}</td>
+                        <td>${armacao.material_armacao || '-'}</td>
+                        <td>${armacao.lente_comprada || '-'}</td>
+                        <td>${armacao.tratamento || '-'}</td>
+                        <td class="actions">
+                            <button class="btn btn-small btn-danger" onclick="excluirArmacao(${armacao.ID})">Excluir</button>
+                        </td>
+                    `;
+                });
+            } catch (error) {
+                exibirErro('armacoes-result', 'Erro ao carregar armações: ' + error.message);
+            }
+        }
+
+        function limparFormularioArmacao() {
+            const campos = [
+                'armacao_id_os', 'armacao_ponte', 'armacao_horizontal', 'armacao_vertical',
+                'armacao_diagonal_maior', 'armacao_marca_armacao', 'armacao_referencia_armacao',
+                'armacao_material_armacao', 'armacao_lente_comprada', 'armacao_tratamento',
+                'armacao_coloracao'
+            ];
+            
+            campos.forEach(campo => {
+                document.getElementById(campo).value = '';
+            });
+            
+            document.getElementById('armacoes-result').style.display = 'none';
+        }
+
+        async function excluirArmacao(id) {
+            if (confirm('Tem certeza que deseja excluir esta armação?')) {
+                try {
+                    const response = await fetch(`/api/armacoes-lentes/${id}`, {
+                        method: 'DELETE',
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        exibirSucesso('armacoes-result', 'Armação excluída com sucesso!');
+                        carregarArmacoes();
+                    } else {
+                        exibirErro('armacoes-result', result.error || 'Erro ao excluir armação');
+                    }
+                } catch (error) {
+                    exibirErro('armacoes-result', 'Erro ao conectar com o servidor: ' + error.message);
+                }
+            }
+        }
+
+        // FUNÇÕES PARA PAGAMENTOS
+        function calcularTotal() {
+            const valorLente = parseFloat(document.getElementById('pagamento_valor_lente').value) || 0;
+            const valorArmacao = parseFloat(document.getElementById('pagamento_valor_armacao').value) || 0;
+            const total = valorLente + valorArmacao;
+            
+            // Atualizar cálculo de parcelas se necessário
+            calcularParcelas();
+        }
+
+        function calcularParcelas() {
+            const valorLente = parseFloat(document.getElementById('pagamento_valor_lente').value) || 0;
+            const valorArmacao = parseFloat(document.getElementById('pagamento_valor_armacao').value) || 0;
+            const entrada = parseFloat(document.getElementById('pagamento_entrada').value) || 0;
+            const parcelas = parseInt(document.getElementById('pagamento_parcelas').value) || 1;
+            
+            const total = valorLente + valorArmacao;
+            const saldo = total - entrada;
+            const valorParcela = saldo / parcelas;
+            
+            document.getElementById('pagamento_valor_parcelas').value = valorParcela.toFixed(2);
+        }
+
+        function toggleParcelas() {
+            const formaPagamento = document.getElementById('pagamento_forma_pagamento').value;
+            const parcelasField = document.getElementById('pagamento_parcelas');
+            const valorParcelasField = document.getElementById('pagamento_valor_parcelas');
+            
+            if (formaPagamento === 'Cartão de Crédito') {
+                parcelasField.disabled = false;
+                valorParcelasField.disabled = false;
+            } else {
+                parcelasField.disabled = true;
+                valorParcelasField.disabled = true;
+                parcelasField.value = '';
+                valorParcelasField.value = '';
+            }
+        }
+
+        async function criarPagamento() {
+            const dados = {
+                id_os: parseInt(document.getElementById('pagamento_id_os').value),
+                valor_lente: parseFloat(document.getElementById('pagamento_valor_lente').value),
+                valor_armacao: parseFloat(document.getElementById('pagamento_valor_armacao').value),
+                forma_pagamento: document.getElementById('pagamento_forma_pagamento').value,
+                entrada: parseFloat(document.getElementById('pagamento_entrada').value) || 0,
+                parcelas: parseInt(document.getElementById('pagamento_parcelas').value) || null,
+                valor_parcelas: parseFloat(document.getElementById('pagamento_valor_parcelas').value) || null,
+                status: document.getElementById('pagamento_status').value
+            };
+
+            if (!dados.id_os || !dados.valor_lente || !dados.valor_armacao || !dados.forma_pagamento || !dados.status) {
+                exibirErro('pagamentos-result', 'Campos obrigatórios devem ser preenchidos.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/pagamentos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(dados),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    exibirSucesso('pagamentos-result', 'Pagamento criado com sucesso!');
+                    limparFormularioPagamento();
+                    carregarPagamentos();
+                } else {
+                    exibirErro('pagamentos-result', result.error || 'Erro ao criar pagamento');
+                }
+            } catch (error) {
+                exibirErro('pagamentos-result', 'Erro ao conectar com o servidor: ' + error.message);
+            }
+        }
+
+        async function carregarPagamentos() {
+            try {
+                const response = await fetch('/api/pagamentos');
+                const pagamentos = await response.json();
+
+                const tbody = document.getElementById('pagamentos-tbody');
+                tbody.innerHTML = '';
+
+                pagamentos.forEach(pagamento => {
+                    const row = tbody.insertRow();
+                    row.innerHTML = `
+                        <td>${pagamento.ID}</td>
+                        <td>${pagamento.ID_OS}</td>
+                        <td>R$ ${pagamento.valor_total.toFixed(2)}</td>
+                        <td>${pagamento.forma_pagamento}</td>
+                        <td>R$ ${pagamento.entrada.toFixed(2)}</td>
+                        <td>${pagamento.parcelas || '-'}</td>
+                        <td>${pagamento.status}</td>
+                        <td class="actions">
+                            <button class="btn btn-small btn-danger" onclick="excluirPagamento(${pagamento.ID})">Excluir</button>
+                        </td>
+                    `;
+                });
+            } catch (error) {
+                exibirErro('pagamentos-result', 'Erro ao carregar pagamentos: ' + error.message);
+            }
+        }
+
+        function limparFormularioPagamento() {
+            const campos = [
+                'pagamento_id_os', 'pagamento_valor_lente', 'pagamento_valor_armacao',
+                'pagamento_forma_pagamento', 'pagamento_entrada', 'pagamento_parcelas',
+                'pagamento_valor_parcelas', 'pagamento_status'
+            ];
+            
+            campos.forEach(campo => {
+                document.getElementById(campo).value = '';
+            });
+            
+            document.getElementById('pagamentos-result').style.display = 'none';
+        }
+
+        async function excluirPagamento(id) {
+            if (confirm('Tem certeza que deseja excluir este pagamento?')) {
+                try {
+                    const response = await fetch(`/api/pagamentos/${id}`, {
+                        method: 'DELETE',
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        exibirSucesso('pagamentos-result', 'Pagamento excluído com sucesso!');
+                        carregarPagamentos();
+                    } else {
+                        exibirErro('pagamentos-result', result.error || 'Erro ao excluir pagamento');
+                    }
+                } catch (error) {
+                    exibirErro('pagamentos-result', 'Erro ao conectar com o servidor: ' + error.message);
+                }
+            }
+        }
+
+        // Carregar dados iniciais
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarClientes();
+        });
+    </script>
+</body>
+</html>
+

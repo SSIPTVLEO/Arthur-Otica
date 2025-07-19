@@ -363,4 +363,4 @@ def exportar_clientes_excel():
                 pagamento.parcelas,
                 pagamento.valor_parcelas,
                 pagamento.status
-            ])
+            ]))
